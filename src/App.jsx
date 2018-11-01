@@ -5,22 +5,26 @@ import MessageList from './MessageList.jsx';
 class App extends Component {
   constructor(props) {
     super(props);
-    // setting initial state
+    // this.state = {
+    //   currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
+    //   messages: [
+    //     {
+    //       username: 'Bob',
+    //       content: 'Has anyone seen my marbles?',
+    //       id: 0,
+    //     },
+    //     {
+    //       username: 'Anonymous',
+    //       content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
+    //       id: 1,
+    //     },
+    //   ],
+    // };
     this.state = {
-      currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?',
-          id: 0,
-        },
-        {
-          username: 'Anonymous',
-          content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
-          id: 1,
-        },
-      ],
+      currentUser: { name: 'Bob' },
+      messages: [], // messages coming from the server will be stored here as they arrive
     };
+
     // create a websocket connection to our server
 
     this.socket = new WebSocket('ws://localhost:3001');
