@@ -1,32 +1,16 @@
 import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+// import { IncomingMessage } from 'http';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-    //   messages: [
-    //     {
-    //       username: 'Bob',
-    //       content: 'Has anyone seen my marbles?',
-    //       id: 0,
-    //     },
-    //     {
-    //       username: 'Anonymous',
-    //       content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.',
-    //       id: 1,
-    //     },
-    //   ],
-    // };
     this.state = {
       currentUser: { name: 'Bob' },
       messages: [], // messages coming from the server will be stored here as they arrive
     };
-
     // create a websocket connection to our server
-
     this.socket = new WebSocket('ws://localhost:3001');
     this.addMessage = this.addMessage.bind(this);
   }
@@ -46,7 +30,15 @@ class App extends Component {
 
   componentDidMount() {
     this.socket.onopen = () => {
-      console.log('Connected to Server');
+      console.log('Connected');
+    };
+    this.socket.onmessage = (event) => {
+      // console.log('WebSocket message received:', event.data);
+      let incomingMessage = JSON.parse(event.data);
+      console.log(incomingMessage);
+      this.setState({
+        messages: this.state.messages.concat(incomingMessage),
+      });
     };
 
     console.log('componentDidMount <App />');
