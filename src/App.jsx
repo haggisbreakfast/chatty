@@ -38,6 +38,8 @@ class App extends Component {
       this.setState({
         messages: newMessages,
       });
+
+      console.log('this.state.messages', this.state.messages);
     };
 
     console.log('componentDidMount <App />');

@@ -20,14 +20,14 @@ const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  var id = uuidv4();
+
   ws.onmessage = function(event) {
     // event.data = JSON.parse(event.data);
     let msg = JSON.parse(event.data);
     let message = {
       user: msg.username,
       content: msg.content,
-      id: id,
+      id: uuidv4(),
     };
 
     wss.clients.forEach(function each(client) {
