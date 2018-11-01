@@ -9,6 +9,7 @@ class ChatBar extends Component {
     }
   }
   submitName(event) {
+    // if (event.key === 'Enter') {
     const currentName = event.target.value;
     this.props.updateName(currentName);
   }

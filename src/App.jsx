@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: '' },
+      currentUser: { name: 'bob' },
       messages: [], // messages coming from the server will be stored here as they arrive
     };
     // create a websocket connection to our server
@@ -15,9 +15,9 @@ class App extends Component {
     this.addMessage = this.addMessage.bind(this);
   }
 
-  addMessage(content, username) {
+  addMessage(content) {
     const newMsg = {
-      username: username,
+      username: this.state.currentUser.name,
       content: content,
     };
     this.socket.send(JSON.stringify(newMsg));
@@ -43,8 +43,6 @@ class App extends Component {
       this.setState({
         messages: newMessages,
       });
-
-      console.log('this.state.messages', this.state.messages);
     };
 
     console.log('componentDidMount <App />');
