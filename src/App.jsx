@@ -33,11 +33,10 @@ class App extends Component {
       console.log('Connected');
     };
     this.socket.onmessage = (event) => {
-      // console.log('WebSocket message received:', event.data);
       let incomingMessage = JSON.parse(event.data);
-      console.log(incomingMessage);
+      const newMessages = this.state.messages.concat(incomingMessage);
       this.setState({
-        messages: this.state.messages.concat(incomingMessage),
+        messages: newMessages,
       });
     };
 
