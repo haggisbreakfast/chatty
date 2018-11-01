@@ -24,7 +24,6 @@ class App extends Component {
     // create a websocket connection to our server
 
     this.socket = new WebSocket('ws://localhost:3001');
-
     this.addMessage = this.addMessage.bind(this);
   }
 
@@ -35,10 +34,11 @@ class App extends Component {
       content: content,
       id: currentMessages.length,
     };
-    const newMessages = currentMessages.concat(newMsg);
-    this.setState({
-      messages: newMessages,
-    });
+    this.socket.send(JSON.stringify(newMsg));
+    // const newMessages = currentMessages.concat(newMsg);
+    // this.setState({
+    //   messages: newMessages,
+    // });
   }
 
   componentDidMount() {
