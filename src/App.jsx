@@ -32,7 +32,6 @@ class App extends Component {
     const newMsg = {
       username: this.state.currentUser.name,
       content: content,
-      id: currentMessages.length,
     };
     this.socket.send(JSON.stringify(newMsg));
     // const newMessages = currentMessages.concat(newMsg);
