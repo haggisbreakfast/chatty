@@ -16,12 +16,14 @@ const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  console.log(wss.clients.size);
+  let clientCountObject = {
+    type: 'clientCount',
+    count: wss.clients.size,
+  };
   wss.clients.forEach(function each(client) {
-    // if (client.readyState === WebSocket.OPEN) {
-    let clientCount = wss.clients.size;
-    client.send(clientCount);
+    client.send(JSON.stringify(clientCountObject));
   });
+
   // receiving messages from client
   ws.onmessage = function(event) {
     // event.data = JSON.parse(event.data);
@@ -53,11 +55,9 @@ wss.on('connection', (ws) => {
   };
   ws.on('close', () => {
     console.log('Client disconnected');
-    console.log(wss.clients.size);
+
+    wss.clients.forEach(function each(client) {
+      client.send(JSON.stringify(clientCountObject));
+    });
   });
 });
-// ws.onmessage = function(event) {
-//   let notification = JSON.parse(event.data);
-// };
-
-// Set up a callback for when a client closes the socket. This usually means they closed their browser.
