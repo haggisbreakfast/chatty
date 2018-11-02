@@ -1,3 +1,8 @@
+$blue: rgb(98, 199, 199);
+* {
+  font-family: 'Amatic SC', cursive;
+}
+
 h1 {
   color: tomato;
 }
@@ -6,7 +11,7 @@ h1 {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css');
 
 body {
-  background: white;
+  background: rgb(232, 183, 255);
   color: black;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
@@ -14,7 +19,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: $blue;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -36,15 +41,22 @@ body {
 
 .chatbar-message {
   flex: 8;
+  border-radius: 6px;
+  background-color: rgb(233, 225, 225);
+  font-size: 28px;
 }
 
 .chatbar-username {
   flex: 2;
+  border-radius: 6px;
+  background-color: rgb(233, 225, 225);
+  font-size: 28px;
 }
 
 .message {
   display: flex;
   padding: 5px;
+  font-size: 24px;
 }
 
 .message.system {
@@ -66,10 +78,12 @@ body {
 .message-username {
   flex: 2;
   font-weight: 700;
+  color: rgb(100, 99, 99);
+  font-size: 18px;
 }
 
 .navbar {
-  background: tomato;
+  background: $blue;
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -83,10 +97,16 @@ body {
   color: inherit;
   display: block;
   float: left;
-  font-weight: 700;
-  font-size: 28px;
+  font-weight: bolder;
+  font-size: 48px;
   height: 60px;
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+.navbar-users {
+  float: right;
+  text-align: center;
+  padding-top: 20px;
+  font-size: 24px;
 }
