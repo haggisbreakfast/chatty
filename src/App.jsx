@@ -14,18 +14,24 @@ class App extends Component {
     this.socket = new WebSocket('ws://localhost:3001');
     this.addMessage = this.addMessage.bind(this);
   }
-
+  // send messgaes to server
   addMessage(content) {
     const newMsg = {
+      type: 'postMessage',
       username: this.state.currentUser.name,
       content: content,
     };
     this.socket.send(JSON.stringify(newMsg));
-    // const newMessages = currentMessages.concat(newMsg);
-    // this.setState({
-    //   messages: newMessages,
-    // });
   }
+  // sends notification of name change to the server
+  nameNotification = (currentName) => {
+    const notification = {
+      type: 'postNotification',
+      content: `name changed to ${currentName}`,
+    };
+    this.socket.send(JSON.stringify(notification));
+  };
+
   updateName = (currentName) => {
     console.log(`yr name: ${currentName}`);
     this.setState({
@@ -37,12 +43,14 @@ class App extends Component {
     this.socket.onopen = () => {
       console.log('Connected');
     };
+    // receives incoming msgs from
     this.socket.onmessage = (event) => {
       let incomingMessage = JSON.parse(event.data);
       const newMessages = this.state.messages.concat(incomingMessage);
       this.setState({
         messages: newMessages,
       });
+      console.log(this.state.messages);
     };
 
     console.log('componentDidMount <App />');

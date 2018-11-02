@@ -9,11 +9,11 @@ class ChatBar extends Component {
     }
   }
   submitName(event) {
-    // if (event.key === 'Enter') {
-    const currentName = event.target.value;
-    this.props.updateName(currentName);
+    if (event.key === 'Enter') {
+      const currentName = event.target.value;
+      this.props.updateName(currentName);
+    }
   }
-
   render() {
     return (
       <footer className="chatbar">
