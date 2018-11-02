@@ -20,6 +20,7 @@ wss.on('connection', (ws) => {
   ws.onmessage = function(event) {
     // event.data = JSON.parse(event.data);
     // console.log(event.data);
+
     let msg = JSON.parse(event.data);
     let message = {
       user: msg.username,
@@ -27,21 +28,27 @@ wss.on('connection', (ws) => {
       id: uuidv4(),
       type: msg.type,
     };
-    const messageType = message.type;
-    switch (messageType) {
+
+    // let messageType;
+    switch (message.type) {
       case 'postMessage':
         message.type = 'incomingMessage';
+        break;
+      case 'postNotification':
+        message.type = 'incomingNotification';
+        break;
     }
+
     wss.clients.forEach(function each(client) {
       // if (client.readyState === WebSocket.OPEN) {
       let messagetoSend = JSON.stringify(message);
       client.send(messagetoSend);
     });
   };
-  // ws.onmessage = function(event) {
-  //   let notification = JSON.parse(event.data);
-  // };
-
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => console.log('Client disconnected'));
 });
+// ws.onmessage = function(event) {
+//   let notification = JSON.parse(event.data);
+// };
+
+// Set up a callback for when a client closes the socket. This usually means they closed their browser.

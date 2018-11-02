@@ -27,7 +27,7 @@ class App extends Component {
   nameNotification = (currentName) => {
     const notification = {
       type: 'postNotification',
-      content: `name changed to ${currentName}`,
+      content: `${this.state.currentUser.name} name changed to ${currentName}`,
     };
     this.socket.send(JSON.stringify(notification));
   };
@@ -37,6 +37,7 @@ class App extends Component {
     this.setState({
       currentUser: { name: currentName },
     });
+    this.nameNotification(currentName);
   };
 
   componentDidMount() {
@@ -50,7 +51,7 @@ class App extends Component {
       this.setState({
         messages: newMessages,
       });
-      console.log(this.state.messages);
+      console.log('this.state.messages', this.state.messages);
     };
 
     console.log('componentDidMount <App />');
