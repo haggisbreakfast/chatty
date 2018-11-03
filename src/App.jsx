@@ -10,7 +10,6 @@ class App extends Component {
       currentUser: { name: 'anonymous' },
       messages: [],
       userCount: 0,
-      notification: false // messages coming from the server will be stored here as they arrive
     };
     // create a websocket connection to our server
     this.socket = new WebSocket('ws://localhost:3001');
@@ -29,7 +28,7 @@ class App extends Component {
   nameNotification = (currentName) => {
     const notification = {
       type: 'postNotification',
-      content: `${this.state.currentUser.name} name changed to ${currentName}`,
+      content: `${this.state.currentUser.name} changed their name to ${currentName}`,
     };
     this.socket.send(JSON.stringify(notification));
   };
@@ -46,28 +45,30 @@ class App extends Component {
     this.socket.onopen = () => {
       console.log('Connected');
       // receives incoming msgs from
+    };
 
-      this.socket.onmessage = (event) => {
-        let parsedData = JSON.parse(event.data);
-        switch (parsedData.type) {
-          case 'incomingMessage':
-            const newMessages = this.state.messages.concat(parsedData);
-            this.setState({
-              messages: newMessages,
-            });
-            break;
-            case 'incomingNotification':
-            this.setState({
-              notification: true
-            })
-            break;
-            case 'clientConnected':
-            this.setState({
-              userCount: parsedData.count
-            })
-        };
-
-      // console.log('componentDidMount <App />');
+    this.socket.onmessage = (event) => {
+      let parsedData = JSON.parse(event.data);
+      switch (parsedData.type) {
+        case 'incomingMessage':
+          const newMessages = this.state.messages.concat(parsedData);
+          this.setState({
+            messages: newMessages,
+          });
+          break;
+        case 'incomingNotification':
+          const notification = this.state.messages.concat(parsedData);
+          this.setState({
+            messages: notification,
+          });
+          break;
+        case 'userCount':
+          this.setState({
+            userCount: parsedData.count,
+          });
+          console.log('connected:', this.state.userCount);
+          break;
+      }
     };
   }
 
