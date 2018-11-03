@@ -56,12 +56,12 @@ body {
 .message {
   display: flex;
   padding: 5px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .message.system {
   font-style: italic;
-  padding: 5px 20px;
+  padding: 5px 18px;
 }
 
 .message-content,
@@ -73,6 +73,7 @@ body {
 
 .message-content {
   flex: 8;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .message-username {
@@ -80,6 +81,7 @@ body {
   font-weight: 700;
   color: rgb(100, 99, 99);
   font-size: 18px;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .navbar {
