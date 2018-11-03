@@ -55,9 +55,10 @@ wss.on('connection', (ws) => {
   };
   ws.on('close', () => {
     console.log('Client disconnected');
+    clientCountObject.count = wss.clients.size;
     wss.clients.forEach(function each(client) {
       client.send(JSON.stringify(clientCountObject));
-      console.log(clientCountObject.type);
+      console.log(clientCountObject.count);
     });
   });
 });
