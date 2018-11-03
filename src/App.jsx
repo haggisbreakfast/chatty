@@ -9,7 +9,8 @@ class App extends Component {
     this.state = {
       currentUser: { name: 'anonymous' },
       messages: [],
-      userCount: 0, // messages coming from the server will be stored here as they arrive
+      userCount: 0,
+      notification: false // messages coming from the server will be stored here as they arrive
     };
     // create a websocket connection to our server
     this.socket = new WebSocket('ws://localhost:3001');
@@ -48,15 +49,23 @@ class App extends Component {
 
       this.socket.onmessage = (event) => {
         let parsedData = JSON.parse(event.data);
-        // console.log('userCount', parsedData.count);
-        // console.log(this.state.userCount);
-
-        const newMessages = this.state.messages.concat(parsedData);
-        this.setState({
-          messages: newMessages,
-          userCount: parsedData.count,
-        });
-      };
+        switch (parsedData.type) {
+          case 'incomingMessage':
+            const newMessages = this.state.messages.concat(parsedData);
+            this.setState({
+              messages: newMessages,
+            });
+            break;
+            case 'incomingNotification':
+            this.setState({
+              notification: true
+            })
+            break;
+            case 'clientConnected':
+            this.setState({
+              userCount: parsedData.count
+            })
+        };
 
       // console.log('componentDidMount <App />');
     };
@@ -69,7 +78,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">
             Chatty
           </a>
-          <a className="navbar-users"> # of chatters: {this.state.userCount}</a>
+          <a className="navbar-users"> # of chatters online: {this.state.userCount}</a>
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar user={this.state.currentUser} addMessage={this.addMessage} updateName={this.updateName} />

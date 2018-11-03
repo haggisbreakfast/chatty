@@ -17,7 +17,7 @@ class ChatBar extends Component {
   render() {
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" onKeyPress={this.submitName.bind(this)} />
+        <input className="chatbar-username" onKeyPress={this.submitName.bind(this)} placeholder="name goes here" />
         <input
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"

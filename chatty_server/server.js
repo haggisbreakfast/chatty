@@ -17,7 +17,7 @@ const wss = new SocketServer({ server });
 wss.on('connection', (ws) => {
   console.log('Client connected');
   let clientCountObject = {
-    type: 'clientCount',
+    type: 'clientConnected',
     count: wss.clients.size,
   };
   wss.clients.forEach(function each(client) {
@@ -55,7 +55,7 @@ wss.on('connection', (ws) => {
   };
   ws.on('close', () => {
     console.log('Client disconnected');
-
+    clientCountObject.type = 'clientDisconnected';
     wss.clients.forEach(function each(client) {
       client.send(JSON.stringify(clientCountObject));
     });
