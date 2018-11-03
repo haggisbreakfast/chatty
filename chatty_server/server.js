@@ -1,7 +1,7 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const uuidv4 = require('uuid/v4');
-const WebSocket = require('ws');
+// const WebSocket = require('ws');
 // Set the port to 3001
 const PORT = 3001;
 
@@ -16,19 +16,17 @@ const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  // set up user count on connection
   let clientCountObject = {
     type: 'userCount',
     count: wss.clients.size,
   };
+  // loop through each connected client and send object to app
   wss.clients.forEach(function each(client) {
     client.send(JSON.stringify(clientCountObject));
   });
-
   // receiving messages from client
   ws.onmessage = function(event) {
-    // event.data = JSON.parse(event.data);
-    // console.log(event.data);
-
     let msg = JSON.parse(event.data);
     let message = {
       user: msg.username,
@@ -36,8 +34,7 @@ wss.on('connection', (ws) => {
       id: uuidv4(),
       type: msg.type,
     };
-
-    // let messageType;
+    // reassign message types for sending to app
     switch (message.type) {
       case 'postMessage':
         message.type = 'incomingMessage';
@@ -46,19 +43,19 @@ wss.on('connection', (ws) => {
         message.type = 'incomingNotification';
         break;
     }
-
+    // broadcast messages to all connected users
     wss.clients.forEach(function each(client) {
-      // if (client.readyState === WebSocket.OPEN) {
       let messagetoSend = JSON.stringify(message);
       client.send(messagetoSend);
     });
   };
   ws.on('close', () => {
     console.log('Client disconnected');
+    // reassign user count when client disconnects
     clientCountObject.count = wss.clients.size;
+    // loop through clients and send new client count data
     wss.clients.forEach(function each(client) {
       client.send(JSON.stringify(clientCountObject));
-      console.log(clientCountObject.count);
     });
   });
 });

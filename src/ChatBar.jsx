@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class ChatBar extends Component {
+  // handle message submission
   submitMessage(event) {
     if (event.key === 'Enter') {
       const text = event.target.value;
@@ -8,6 +9,7 @@ class ChatBar extends Component {
       event.target.value = '';
     }
   }
+  // handle username submission
   submitName(event) {
     if (event.key === 'Enter') {
       const currentName = event.target.value;
