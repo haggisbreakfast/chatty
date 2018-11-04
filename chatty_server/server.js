@@ -1,8 +1,6 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const uuidv4 = require('uuid/v4');
-// const WebSocket = require('ws');
-// Set the port to 3001
 const PORT = 3001;
 
 // Create a new express server
